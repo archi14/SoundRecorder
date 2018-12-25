@@ -33,6 +33,7 @@ public class TabFragment extends Fragment {
     Button play;
     private static String mFileName = null;
     MediaRecorder mediaRecorder;
+    File root = Environment.getExternalStorageDirectory();
     public TabFragment() {
 
     }
@@ -82,21 +83,21 @@ public class TabFragment extends Fragment {
         btn.setSelected(false);
         play = view.findViewById(R.id.play);
         //mFileName = Environment.getExternalStorageDirectory().getAbsolutePath()+"/recording.3gp";
-        mediaRecorder = new MediaRecorder();
+        /*mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+*/
 
-        File root = Environment.getExternalStorageDirectory();
         File file = new File(root.getAbsolutePath()+"/SoundRecorder/Audios");
         if(!file.exists())
         {
             file.mkdirs();
         }
-        mFileName = root.getAbsolutePath()+"/SoundRecorder/Audios/"+String.valueOf(System.currentTimeMillis()+".mp3");
-        Log.d("filename", mFileName);
+        //mFileName = root.getAbsolutePath()+"/SoundRecorder/Audios/"+String.valueOf(System.currentTimeMillis()+".mp3");
+        //Log.d("filename", mFileName);
 
-        mediaRecorder.setOutputFile(mFileName);
-        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        /*mediaRecorder.setOutputFile(mFileName);
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);*/
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,24 +107,27 @@ public class TabFragment extends Fragment {
                     btn.setBackgroundResource(R.drawable.ic_record);
                     mess.setText("Tap the button to start recording");
                     btn.setSelected(false);
-                    mediaRecorder.stop();
+                    stopRecording();
+                    /*mediaRecorder.stop();
                     mediaRecorder.release();
-                    mediaRecorder=null;
+                    mediaRecorder=null;*/
                 }else
                 {
-                    Log.d("tag3", "onClick: ");
+                    //Log.d("tag3", "onClick: ");
                     btn.setVisibility(View.VISIBLE);
                     btn.setBackgroundResource(R.drawable.ic_stop);
                     //btn.setImageResource(R.drawable.ic_stop);
+
                     mess.setText("Recording.....");
                     btn.setSelected(true);
-                    try {
+                    startRecording();
+                    /*try {
                         mediaRecorder.prepare();
                         mediaRecorder.start();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
+*/
 
                 }
             }
@@ -153,10 +157,23 @@ public class TabFragment extends Fragment {
         mediaRecorder=null;
     }
 
-    private void startRecording() throws IOException {
+    private void startRecording() {
+        mediaRecorder = new MediaRecorder();
+        mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
 
-        mediaRecorder.prepare();
-        mediaRecorder.start();
-        Toast.makeText(getContext(), "Recording", Toast.LENGTH_SHORT).show();
+        mFileName = root.getAbsolutePath()+"/SoundRecorder/Audios/"+String.valueOf(System.currentTimeMillis()+".mp3");
+        Log.d("filename", mFileName);
+
+        mediaRecorder.setOutputFile(mFileName);
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        try {
+            mediaRecorder.prepare();
+            mediaRecorder.start();
+            Toast.makeText(getContext(), "Recording", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
