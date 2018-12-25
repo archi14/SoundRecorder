@@ -29,7 +29,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerAdapter.RecyclerViewHolder holder, int position) {
-
+        SoundFile file = files.get(position);
+        holder.textView.setText(file.getFilename());
     }
 
     @Override
