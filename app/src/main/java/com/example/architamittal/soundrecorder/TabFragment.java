@@ -92,8 +92,9 @@ public class TabFragment extends Fragment {
         {
             file.mkdirs();
         }
-        mFileName = root.getAbsolutePath()+"/SoundRecorder/Audios"+String.valueOf(System.currentTimeMillis()+".mp3");
+        mFileName = root.getAbsolutePath()+"/SoundRecorder/Audios/"+String.valueOf(System.currentTimeMillis()+".mp3");
         Log.d("filename", mFileName);
+
         mediaRecorder.setOutputFile(mFileName);
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         btn.setOnClickListener(new View.OnClickListener() {
