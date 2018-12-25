@@ -30,11 +30,11 @@ public class FileDatabase extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public long insertFile(String file,String Filepath)
+    public long insertFile(SoundFile file)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(file, Filepath);
+        values.put(file.getFilename(), file.getFilePath());
         long id = db.insert(TABLE_NAME,null,values);
         db.close();
         return id;
