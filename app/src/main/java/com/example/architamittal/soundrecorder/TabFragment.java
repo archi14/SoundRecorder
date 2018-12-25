@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.IOException;
 
 
@@ -80,10 +81,19 @@ public class TabFragment extends Fragment {
         mess = view.findViewById(R.id.mess);
         btn.setSelected(false);
         play = view.findViewById(R.id.play);
-        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath()+"/recording.3gp";
+        //mFileName = Environment.getExternalStorageDirectory().getAbsolutePath()+"/recording.3gp";
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+
+        File root = Environment.getExternalStorageDirectory();
+        File file = new File(root.getAbsolutePath()+"/SoundRecorder/Audios");
+        if(!file.exists())
+        {
+            file.mkdirs();
+        }
+        mFileName = root.getAbsolutePath()+"/SoundRecorder/Audios"+String.valueOf(System.currentTimeMillis()+".mp3");
+        Log.d("filename", mFileName);
         mediaRecorder.setOutputFile(mFileName);
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         btn.setOnClickListener(new View.OnClickListener() {
