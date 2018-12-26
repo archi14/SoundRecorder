@@ -23,7 +23,6 @@ public class SavedRecording extends Fragment {
     RecyclerView rv;
     ArrayList<SoundFile> sfiles;
     public SavedRecording() {
-
     }
 
 
@@ -64,6 +63,10 @@ public class SavedRecording extends Fragment {
       return sfiles;
     }
 
-
+    public void change(SoundFile file)
+    {
+        sfiles.add(file);
+        recyclerAdapter.notifyDataSetChanged();
+    }
 }
 

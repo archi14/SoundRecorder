@@ -1,6 +1,8 @@
 package com.example.architamittal.soundrecorder;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -24,8 +26,9 @@ import java.io.IOException;
 
 
 public class TabFragment extends Fragment {
-
+    String filename;
     int position;
+    OnItemAddedListener listener;
     RecyclerAdapter recyclerAdapter;
     RecyclerView recyclerView;
     ImageButton btn;
@@ -75,6 +78,13 @@ public class TabFragment extends Fragment {
             recyclerView.setAdapter(recyclerAdapter);
 
         }*/
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        listener = (OnItemAddedListener)context;
+
     }
 
     private void functionsforRecord(View view) {
@@ -155,14 +165,15 @@ public class TabFragment extends Fragment {
         mediaRecorder.release();
         Toast.makeText(getContext(), "Successful", Toast.LENGTH_SHORT).show();
         mediaRecorder=null;
+        listener.onItemAdded(new SoundFile(filename,root.getAbsolutePath()+"/SoundRecorder/Audios/"));
     }
 
     private void startRecording() {
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-
-        mFileName = root.getAbsolutePath()+"/SoundRecorder/Audios/"+String.valueOf(System.currentTimeMillis()+".mp3");
+        filename = String.valueOf(System.currentTimeMillis())+".mp3";
+        mFileName = root.getAbsolutePath()+"/SoundRecorder/Audios/"+filename;
         Log.d("filename", mFileName);
 
         mediaRecorder.setOutputFile(mFileName);
@@ -175,5 +186,10 @@ public class TabFragment extends Fragment {
             e.printStackTrace();
         }
 
+    }
+
+    public interface OnItemAddedListener
+    {
+        public void onItemAdded(SoundFile soundfile);
     }
 }
