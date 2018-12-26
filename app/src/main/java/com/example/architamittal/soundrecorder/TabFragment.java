@@ -8,6 +8,7 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +30,7 @@ import java.io.IOException;
 public class TabFragment extends Fragment {
     String filename;
     int position;
+    Chronometer timer;
     OnItemAddedListener listener;
     RecyclerAdapter recyclerAdapter;
     RecyclerView recyclerView;
@@ -92,6 +95,7 @@ public class TabFragment extends Fragment {
         mess = view.findViewById(R.id.mess);
         btn.setSelected(false);
         play = view.findViewById(R.id.play);
+        timer = view.findViewById(R.id.timer);
         //mFileName = Environment.getExternalStorageDirectory().getAbsolutePath()+"/recording.3gp";
         /*mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -165,6 +169,8 @@ public class TabFragment extends Fragment {
         mediaRecorder.release();
         Toast.makeText(getContext(), "Successful", Toast.LENGTH_SHORT).show();
         mediaRecorder=null;
+        //timer.stop();
+        stoptimer();
         listener.onItemAdded(new SoundFile(filename,root.getAbsolutePath()+"/SoundRecorder/Audios/"));
     }
 
@@ -181,6 +187,8 @@ public class TabFragment extends Fragment {
         try {
             mediaRecorder.prepare();
             mediaRecorder.start();
+            //timer.start();
+            starttimer();
             Toast.makeText(getContext(), "Recording", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -191,5 +199,16 @@ public class TabFragment extends Fragment {
     public interface OnItemAddedListener
     {
         public void onItemAdded(SoundFile soundfile);
+    }
+
+    public void starttimer()
+    {
+        timer.setBase(SystemClock.elapsedRealtime());
+        timer.start();
+    }
+
+    public void stoptimer()
+    {
+        timer.stop();
     }
 }
