@@ -4,6 +4,10 @@ public class SoundFile {
     String Filename;
     String FilePath;
 
+    public SoundFile()
+    {
+
+    }
     public SoundFile(String filename, String filePath) {
         Filename = filename;
         FilePath = filePath;
