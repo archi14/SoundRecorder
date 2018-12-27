@@ -158,6 +158,14 @@ public class TabFragment extends Fragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        mediaPlayer.reset();
+                        mediaPlayer.release();
+                    }
+                });
             }
         });
 
@@ -171,7 +179,7 @@ public class TabFragment extends Fragment {
         mediaRecorder=null;
         //timer.stop();
         stoptimer();
-        listener.onItemAdded(new SoundFile(filename,root.getAbsolutePath()+"/SoundRecorder/Audios/"));
+        listener.onItemAdded(new SoundFile(filename,root.getAbsolutePath()+"/SoundRecorder/Audios/"+filename));
     }
 
     private void startRecording() {
