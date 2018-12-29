@@ -10,11 +10,13 @@
         android:id="@+id/timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="40sp"
-        android:layout_marginTop="350dp"
+        android:textSize="80sp"
+        android:layout_marginTop="150dp"
         android:layout_gravity="center"
+        android:gravity="center"
         />
     <TextView
+        android:layout_marginTop="120dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/mess"
@@ -28,7 +30,7 @@
     <ImageButton
         android:layout_marginTop="10dp"
         android:layout_gravity="center"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="10dp"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:background="@drawable/ic_record"
@@ -40,5 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="play"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
         />
 </LinearLayout>
