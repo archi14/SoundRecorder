@@ -180,6 +180,7 @@ public class TabFragment extends Fragment {
         //timer.stop();
         stoptimer();
         listener.onItemAdded(new SoundFile(filename,root.getAbsolutePath()+"/SoundRecorder/Audios/"+filename));
+        play.setVisibility(View.VISIBLE);
     }
 
     private void startRecording() {

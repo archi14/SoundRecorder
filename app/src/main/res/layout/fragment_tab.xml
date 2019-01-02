@@ -33,7 +33,7 @@
         android:layout_marginLeft="10dp"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:background="@drawable/ic_record"
+        android:background="@drawable/ic_record1"
         android:id="@+id/btn"
         />
     <Button
@@ -44,5 +44,6 @@
         android:text="play"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="10dp"
+        android:visibility="invisible"
         />
 </LinearLayout>
