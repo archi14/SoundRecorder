@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements TabFragment.OnIte
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        toolbar.setTitle("Sound Recoder");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         viewPager = findViewById(R.id.pager);
