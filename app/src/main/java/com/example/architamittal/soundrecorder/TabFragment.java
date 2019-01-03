@@ -4,13 +4,16 @@ package com.example.architamittal.soundrecorder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.icu.util.Calendar;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,12 +28,15 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 
 
 public class TabFragment extends Fragment {
     String filename;
     int position;
     Chronometer timer;
+    static FileDatabase database;
     OnItemAddedListener listener;
     RecyclerAdapter recyclerAdapter;
     RecyclerView recyclerView;
@@ -68,6 +74,7 @@ public class TabFragment extends Fragment {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -96,6 +103,10 @@ public class TabFragment extends Fragment {
         btn.setSelected(false);
         play = view.findViewById(R.id.play);
         timer = view.findViewById(R.id.timer);
+        database = new FileDatabase(getContext());
+        database.insertFile(new SoundFile("abc","abc","abc"));
+        SoundFile files = database.getFile("abc");
+        Log.d("imp", files.getFilename());
         //mFileName = Environment.getExternalStorageDirectory().getAbsolutePath()+"/recording.3gp";
         /*mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -113,6 +124,7 @@ public class TabFragment extends Fragment {
         /*mediaRecorder.setOutputFile(mFileName);
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);*/
         btn.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
                 if(btn.isSelected())
@@ -172,6 +184,7 @@ public class TabFragment extends Fragment {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void stopRecording() {
         mediaRecorder.stop();
         mediaRecorder.release();
@@ -179,7 +192,12 @@ public class TabFragment extends Fragment {
         mediaRecorder=null;
         //timer.stop();
         stoptimer();
-        listener.onItemAdded(new SoundFile(filename,root.getAbsolutePath()+"/SoundRecorder/Audios/"+filename));
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.YYYY hh:mm a");
+        String datetime = sdf.format(calendar.getTime());
+        SoundFile file = new SoundFile(filename,root.getAbsolutePath()+"/SoundRecorder/Audios/"+filename,datetime);
+        database.insertFile(file);
+        listener.onItemAdded(new SoundFile(filename,root.getAbsolutePath()+"/SoundRecorder/Audios/"+filename,datetime));
         play.setVisibility(View.VISIBLE);
     }
 

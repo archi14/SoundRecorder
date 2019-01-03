@@ -3,12 +3,21 @@ package com.example.architamittal.soundrecorder;
 public class SoundFile {
     String Filename;
     String FilePath;
-
+    String DateTime;
     public SoundFile()
     {
 
     }
-    public SoundFile(String filename, String filePath) {
+
+    public String getDateTime() {
+        return DateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        DateTime = dateTime;
+    }
+
+    public SoundFile(String filename, String filePath, String DateTime) {
         Filename = filename;
         FilePath = filePath;
     }

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class SavedRecording extends Fragment {
@@ -27,7 +28,7 @@ public class SavedRecording extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         return inflater.inflate(R.layout.fragment_saved_recording, container, false);
@@ -41,6 +42,7 @@ public class SavedRecording extends Fragment {
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerAdapter = new RecyclerAdapter(getContext(),sfiles);
         rv.setAdapter(recyclerAdapter);
+        //getall();
     }
 
     public ArrayList<SoundFile> fetchRecordings()
@@ -57,7 +59,7 @@ public class SavedRecording extends Fragment {
             Log.d("files name", files[i].getName());
             String filename = files[i].getName();
             String filepath = path+filename;
-            SoundFile soundFile = new SoundFile(filename,filepath);
+            SoundFile soundFile = new SoundFile(filename,filepath,"abd");
             sfiles.add(soundFile);
         }
       return sfiles;
