@@ -22,7 +22,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
     private ArrayList<SoundFile> files;
     private Context context;
-
+    RecyclerAdapter.RecyclerViewHolder previousHolder=null;
+    MediaPlayer mediaPlayer;
     public RecyclerAdapter(Context context,ArrayList<SoundFile> files)
     {
         this.files=files;
@@ -37,18 +38,35 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerAdapter.RecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final RecyclerAdapter.RecyclerViewHolder holder, final int position) {
         final SoundFile file = files.get(position);
         holder.textView.setText(file.getFilename());
+        //Log.d("AdapterTag", String.valueOf(holder.);
         holder.listplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                holder.listplay.setVisibility(View.INVISIBLE);
+                holder.listpause.setVisibility(View.VISIBLE);
                 //String mFileName = file.getFilePath()+file.getFilename();
-                Log.d("Adapter", file.getFilePath());
-                Uri uri = Uri.parse(file.getFilePath());
-                Log.d("AdapterUri", uri.toString());
                 //Log.d("Adapter", file.getFilePath());
-                MediaPlayer mediaPlayer = new MediaPlayer();
+                Uri uri = Uri.parse(file.getFilePath());
+                //Log.d("AdapterUri", uri.toString());
+                //Log.d("Adapter", file.getFilePath());
+                if(mediaPlayer!=null)
+                {
+                    Log.d("adapter", "I am in ");
+                    Log.d("adapter", String.valueOf(mediaPlayer));
+                    Log.d("in", "1");
+                    previousHolder.listpause.setVisibility(View.INVISIBLE);
+                    previousHolder.listplay.setVisibility(View.VISIBLE);
+                    mediaPlayer.release();
+
+                }
+
+                previousHolder = holder;
+               mediaPlayer = new MediaPlayer();
+                Log.d("in", "2");
+   
                 try {
                     mediaPlayer.setDataSource(file.getFilePath());
                     mediaPlayer.prepareAsync();
@@ -65,10 +83,31 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
                 mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mediaPlayer) {
+
+                        holder.listpause.setVisibility(View.INVISIBLE);
+                        holder.listplay.setVisibility(View.VISIBLE);
+
                         mediaPlayer.reset();
                         mediaPlayer.release();
+                        mediaPlayer=null;
+                        Log.d("adapter", String.valueOf(mediaPlayer));
                     }
                 });
+            }
+
+        });
+
+        holder.listpause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.listpause.setVisibility(View.INVISIBLE);
+                holder.listplay.setVisibility(View.VISIBLE);
+                if(mediaPlayer!=null)
+                {
+                    mediaPlayer.pause();
+                }
+
+
             }
         });
     }
@@ -80,11 +119,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
-        ImageButton listplay;
+        ImageButton listplay,listpause;
         public RecyclerViewHolder(View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.text);
             listplay = itemView.findViewById(R.id.listplay);
+            listpause = itemView.findViewById(R.id.listpause);
         }
 
     }
