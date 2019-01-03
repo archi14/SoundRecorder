@@ -66,6 +66,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
                 previousHolder = holder;
                mediaPlayer = new MediaPlayer();
                 Log.d("in", "2");
+   
                 try {
                     mediaPlayer.setDataSource(file.getFilePath());
                     mediaPlayer.prepareAsync();
